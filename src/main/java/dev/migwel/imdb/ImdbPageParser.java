@@ -8,10 +8,13 @@ import org.jsoup.select.Elements;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class ImdbPageParser implements PageParser {
 
@@ -41,9 +44,20 @@ public class ImdbPageParser implements PageParser {
             String filmName = extractFilmName(el);
             int releaseYear = extractReleaseYear(el);
             Integer duration = extractDuration(el);
-            films.add(new Film(filmName, releaseYear, Collections.emptyList(), rating, duration));
+            Collection<String> genres = extractGenres(el);
+            films.add(new Film(filmName, releaseYear, genres, rating, duration));
         }
         return films;
+    }
+
+    private Collection<String> extractGenres(Element el) {
+        String genresStr = el.select("p.text-muted").select("span.genre").text();
+        if (TextUtil.isEmptyOrNull(genresStr)) {
+            return Collections.emptyList();
+        }
+        List<String> genres = Arrays.asList(genresStr.split(","));
+        genres = genres.stream().map(String::toLowerCase).collect(Collectors.toList());
+        return genres;
     }
 
     private Integer extractDuration(Element el) {

@@ -42,7 +42,7 @@ public class InputReader {
             System.out.println("Please give a genre to look for");
             return Collections.emptyList();
         }
-        String[] genres = genre.replaceAll(" ", "").split(",");
+        String[] genres = genre.replaceAll(" ", "").toLowerCase().split(",");
         return Arrays.asList(genres);
     }
 
@@ -89,7 +89,7 @@ public class InputReader {
             System.out.println("Please give a genre to look for");
             return null;
         }
-        excludedGenres = excludedGenres.replaceAll(" ", "");
+        excludedGenres = excludedGenres.replaceAll(" ", "").toLowerCase();
         return Arrays.asList(excludedGenres.split(","));
     }
 
