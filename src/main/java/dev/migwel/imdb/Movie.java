@@ -2,7 +2,7 @@ package dev.migwel.imdb;
 
 import java.util.Collection;
 
-public class Film {
+public class Movie {
 
     private final String name;
     private final int releaseYear;
@@ -10,7 +10,7 @@ public class Film {
     private final Float rating;
     private final Integer durationInMinutes;
 
-    public Film(String name, int releaseYear, Collection<String> genres, Float rating, Integer durationInMinutes) {
+    public Movie(String name, int releaseYear, Collection<String> genres, Float rating, Integer durationInMinutes) {
         this.name = name;
         this.releaseYear = releaseYear;
         this.genres = genres;

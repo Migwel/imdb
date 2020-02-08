@@ -6,5 +6,5 @@ import java.util.Collection;
 public interface PageParser {
 
     @Nonnull
-    Collection<Film> parseFilms();
+    Collection<Movie> parseMovies();
 }

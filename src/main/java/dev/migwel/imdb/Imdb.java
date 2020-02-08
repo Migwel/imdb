@@ -19,40 +19,40 @@ public class Imdb {
             return;
         }
 
-        Collection<Film> relevantMovies = fetchRelevantMovies(filter);
+        Collection<Movie> relevantMovies = fetchRelevantMovies(filter);
         if(CollectionsUtil.isEmptyOrNull(relevantMovies)) {
             System.out.println("No movies could be found for the given criteria");
         }
         relevantMovies.forEach(System.out::println);
     }
 
-    private static Collection<Film> fetchRelevantMovies(Filter filter) {
+    private static Collection<Movie> fetchRelevantMovies(Filter filter) {
         Ordering ordering = filter.getOrdering();
         String genresStr = String.join(",", filter.getGenres());
         int nbIterations = 0;
-        Collection<Film> relevantMovies = new ArrayList<>();
+        Collection<Movie> relevantMovies = new ArrayList<>();
         int pageNumber = filter.getStart();
         while (nbIterations < MAX_NB_ITERATIONS) {
-            Collection<Film> films = fetchMovies(genresStr, pageNumber, ordering);
+            Collection<Movie> movies = fetchMovies(genresStr, pageNumber, ordering);
             ImdbMovieValidator imdbMovieValidator = new ImdbMovieValidator(filter);
-            for (Film film : films) {
-                if (!imdbMovieValidator.isMovieValid(film)) {
+            for (Movie movie : movies) {
+                if (!imdbMovieValidator.isMovieValid(movie)) {
                     continue;
                 }
-                relevantMovies.add(film);
+                relevantMovies.add(movie);
                 if (relevantMovies.size() >= filter.getNbMovies()) {
                     return relevantMovies;
                 }
             }
             nbIterations++;
-            pageNumber += films.size();
+            pageNumber += movies.size();
         }
 
         return relevantMovies;
     }
 
-    private static Collection<Film> fetchMovies(String genresStr, int start, Ordering ordering) {
+    private static Collection<Movie> fetchMovies(String genresStr, int start, Ordering ordering) {
         PageParser parser = new ImdbPageParser(new ImdbPageFetcher(genresStr, start, ordering));
-        return parser.parseFilms();
+        return parser.parseMovies();
     }
 }

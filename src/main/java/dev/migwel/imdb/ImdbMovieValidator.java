@@ -13,47 +13,47 @@ public class ImdbMovieValidator implements MovieValidator {
     }
 
     @Override
-    public boolean isMovieValid(Film film) {
-        if (! validDuration(film, filter.getMinimumDuration(), filter.getMaximumDuration())) {
+    public boolean isMovieValid(Movie movie) {
+        if (! validDuration(movie, filter.getMinimumDuration(), filter.getMaximumDuration())) {
             return false;
         }
-        if (! validRating(film, filter.getMinimumRating())) {
+        if (! validRating(movie, filter.getMinimumRating())) {
             return false;
         }
-        return !isExcluded(film, filter.getExcludedGenres());
+        return !isExcluded(movie, filter.getExcludedGenres());
     }
 
-    private boolean isExcluded(Film film, Collection<String> excludedGenres) {
-        if (CollectionsUtil.isEmptyOrNull(excludedGenres) || CollectionsUtil.isEmptyOrNull(film.getGenres())) {
+    private boolean isExcluded(Movie movie, Collection<String> excludedGenres) {
+        if (CollectionsUtil.isEmptyOrNull(excludedGenres) || CollectionsUtil.isEmptyOrNull(movie.getGenres())) {
             return false;
         }
 
-        return film.getGenres().stream().anyMatch(excludedGenres::contains);
+        return movie.getGenres().stream().anyMatch(excludedGenres::contains);
     }
 
-    private boolean validRating(Film film, Float minimumRating) {
-        if (minimumRating == null || film.getRating() == null) {
+    private boolean validRating(Movie movie, Float minimumRating) {
+        if (minimumRating == null || movie.getRating() == null) {
             return true;
         }
-        return film.getRating() >= minimumRating;
+        return movie.getRating() >= minimumRating;
     }
 
-    private boolean validDuration(Film film, Integer minimumDuration, Integer maximumDuration) {
-        return checkMinimumDuration(film, minimumDuration) && checkMaximumDuration(film, maximumDuration);
+    private boolean validDuration(Movie movie, Integer minimumDuration, Integer maximumDuration) {
+        return checkMinimumDuration(movie, minimumDuration) && checkMaximumDuration(movie, maximumDuration);
     }
 
-    private boolean checkMaximumDuration(Film film, Integer maximumDuration) {
-        if(maximumDuration == null || film.getDurationInMinutes() == null) {
+    private boolean checkMaximumDuration(Movie movie, Integer maximumDuration) {
+        if(maximumDuration == null || movie.getDurationInMinutes() == null) {
             return true;
         }
-        return film.getDurationInMinutes() <= maximumDuration;
+        return movie.getDurationInMinutes() <= maximumDuration;
     }
 
-    private boolean checkMinimumDuration(Film film, Integer minimumDuration) {
-        if(minimumDuration == null || film.getDurationInMinutes() == null) {
+    private boolean checkMinimumDuration(Movie movie, Integer minimumDuration) {
+        if(minimumDuration == null || movie.getDurationInMinutes() == null) {
             return true;
         }
-        return film.getDurationInMinutes() >= minimumDuration;
+        return movie.getDurationInMinutes() >= minimumDuration;
     }
 
 }

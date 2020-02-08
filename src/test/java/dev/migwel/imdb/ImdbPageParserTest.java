@@ -7,9 +7,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class ImdbPageParserTest {
 
     @Test
-    void testParseFilms() {
+    void testParseMovie() {
         PageParser pageParser = new ImdbPageParser(new MockImdbPageFetcher());
-        assertEquals(50, pageParser.parseFilms().size());
+        assertEquals(50, pageParser.parseMovies().size());
     }
 
 }

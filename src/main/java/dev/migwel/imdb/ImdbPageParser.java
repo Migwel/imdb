@@ -29,7 +29,7 @@ public class ImdbPageParser implements PageParser {
     }
 
     @Nonnull
-    public Collection<Film> parseFilms() {
+    public Collection<Movie> parseMovies() {
         String html = fetcher.fetchPage();
         Document doc = Jsoup.parse(html);
         Elements filmElements = doc.select("div.lister-item-content");
@@ -37,17 +37,17 @@ public class ImdbPageParser implements PageParser {
 
     }
 
-    private Collection<Film> extractFilms(Elements filmElements) {
-        Collection<Film> films = new ArrayList<>();
+    private Collection<Movie> extractFilms(Elements filmElements) {
+        Collection<Movie> movies = new ArrayList<>();
         for (Element el : filmElements) {
             Float rating = extractRatings(el);
             String filmName = extractFilmName(el);
             int releaseYear = extractReleaseYear(el);
             Integer duration = extractDuration(el);
             Collection<String> genres = extractGenres(el);
-            films.add(new Film(filmName, releaseYear, genres, rating, duration));
+            movies.add(new Movie(filmName, releaseYear, genres, rating, duration));
         }
-        return films;
+        return movies;
     }
 
     private Collection<String> extractGenres(Element el) {
