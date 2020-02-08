@@ -22,7 +22,7 @@ public class InputReader {
     }
 
     public Filter readInputs() throws InvalidInputException {
-        String start = askStart();
+        int start = askStart();
         Collection<String> genres = askGenres();
         Collection<String> excludedGenres = askExcludedGenres();
         if (CollectionsUtil.isEmptyOrNull(genres)) {
@@ -31,8 +31,23 @@ public class InputReader {
         Integer minimumDuration = askMinimumDuration();
         Integer maximumDuration = askMaximumDuration();
         Float minimumRating = askMinimumRating();
+        int nbMovies = askNumberMovies();
 
-        return new Filter(start, genres, excludedGenres, minimumDuration, maximumDuration, minimumRating);
+        return new Filter(start, genres, excludedGenres, minimumDuration, maximumDuration, minimumRating, nbMovies);
+    }
+
+    private int askNumberMovies() {
+        System.out.println("How many movies do you want to retrieve? (default is 10, max allowed is 100)");
+        String nbMoviesStr = readString();
+        if (TextUtil.isEmptyOrNull(nbMoviesStr)) {
+            return 10;
+        }
+
+        int nbMovies = Integer.parseInt(nbMoviesStr);
+        if (nbMovies > 100) {
+            nbMovies = 100;
+        }
+        return nbMovies;
     }
 
     public Collection<String> askGenres() {
@@ -46,13 +61,13 @@ public class InputReader {
         return Arrays.asList(genres);
     }
 
-    public String askStart() {
+    public int askStart() {
         System.out.println("From which number do you want the search to start? (Default: 0)");
-        String start = readString();
-        if(TextUtil.isEmptyOrNull(start)) {
-            start = "0";
+        String startStr = readString();
+        if(TextUtil.isEmptyOrNull(startStr)) {
+            return 0;
         }
-        return start;
+        return Integer.parseInt(startStr);
     }
 
     public Integer askMinimumDuration() {

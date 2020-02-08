@@ -10,7 +10,7 @@ public class ImdbPageFetcher implements PageFetcher {
 
     private final String url;
 
-    public ImdbPageFetcher(String genres, String start) {
+    public ImdbPageFetcher(String genres, int start) {
         this.url =  String.format(imdbLink, genres, start);
     }
 

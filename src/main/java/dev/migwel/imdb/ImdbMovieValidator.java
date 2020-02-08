@@ -15,15 +15,12 @@ public class ImdbMovieValidator implements MovieValidator {
     @Override
     public boolean isMovieValid(Film film) {
         if (! validDuration(film, filter.getMinimumDuration(), filter.getMaximumDuration())) {
-            return true;
+            return false;
         }
         if (! validRating(film, filter.getMinimumRating())) {
-            return true;
+            return false;
         }
-        if (isExcluded(film, filter.getExcludedGenres())) {
-            return true;
-        }
-        return false;
+        return !isExcluded(film, filter.getExcludedGenres());
     }
 
     private boolean isExcluded(Film film, Collection<String> excludedGenres) {
