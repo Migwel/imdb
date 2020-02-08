@@ -38,7 +38,7 @@ public class ImdbMovieValidator implements MovieValidator {
         if (minimumRating == null || film.getRating() == null) {
             return true;
         }
-        return film.getRating() > minimumRating;
+        return film.getRating() >= minimumRating;
     }
 
     private boolean validDuration(Film film, Integer minimumDuration, Integer maximumDuration) {
@@ -49,14 +49,14 @@ public class ImdbMovieValidator implements MovieValidator {
         if(maximumDuration == null || film.getDurationInMinutes() == null) {
             return true;
         }
-        return film.getDurationInMinutes() < maximumDuration;
+        return film.getDurationInMinutes() <= maximumDuration;
     }
 
     private boolean checkMinimumDuration(Film film, Integer minimumDuration) {
         if(minimumDuration == null || film.getDurationInMinutes() == null) {
             return true;
         }
-        return film.getDurationInMinutes() > minimumDuration;
+        return film.getDurationInMinutes() >= minimumDuration;
     }
 
 }
