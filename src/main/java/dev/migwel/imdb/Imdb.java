@@ -23,12 +23,13 @@ public class Imdb {
     }
 
     private static Collection<Film> fetchRelevantMovies(Filter filter) {
+        Ordering ordering = filter.getOrdering();
         String genresStr = String.join(",", filter.getGenres());
         int nbIterations = 0;
         Collection<Film> relevantMovies = new ArrayList<>();
         int pageNumber = filter.getStart();
         while (nbIterations < MAX_NB_ITERATIONS) {
-            Collection<Film> films = fetchMovies(genresStr, pageNumber);
+            Collection<Film> films = fetchMovies(genresStr, pageNumber, ordering);
             ImdbMovieValidator imdbMovieValidator = new ImdbMovieValidator(filter);
             for (Film film : films) {
                 if (!imdbMovieValidator.isMovieValid(film)) {
@@ -46,8 +47,8 @@ public class Imdb {
         return relevantMovies;
     }
 
-    private static Collection<Film> fetchMovies(String genresStr, int start) {
-        PageParser parser = new ImdbPageParser(new ImdbPageFetcher(genresStr, start));
+    private static Collection<Film> fetchMovies(String genresStr, int start, Ordering ordering) {
+        PageParser parser = new ImdbPageParser(new ImdbPageFetcher(genresStr, start, ordering));
         return parser.parseFilms();
     }
 }

@@ -9,7 +9,7 @@ public class ImdbMovieValidator implements MovieValidator {
     private final Filter filter;
 
     public ImdbMovieValidator(Filter filter) {
-        this.filter = filter;
+        this.filter = Filter.copyFilter(filter);
     }
 
     @Override

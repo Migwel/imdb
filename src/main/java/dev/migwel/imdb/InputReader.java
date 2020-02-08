@@ -11,11 +11,14 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class InputReader {
     
     private final BufferedReader reader;
-    
+    private static final Ordering DEFAULT_ORDERING = Ordering.USERRATING_DESC;
+
     public InputReader(InputStream inputStream) {
         var inputStreamReader = new InputStreamReader(inputStream);
         reader = new BufferedReader(inputStreamReader);
@@ -24,16 +27,33 @@ public class InputReader {
     public Filter readInputs() throws InvalidInputException {
         int start = askStart();
         Collection<String> genres = askGenres();
-        Collection<String> excludedGenres = askExcludedGenres();
         if (CollectionsUtil.isEmptyOrNull(genres)) {
             throw new InvalidInputException("Genre cannot be null");
         }
+        Collection<String> excludedGenres = askExcludedGenres();
         Integer minimumDuration = askMinimumDuration();
         Integer maximumDuration = askMaximumDuration();
         Float minimumRating = askMinimumRating();
         int nbMovies = askNumberMovies();
+        Ordering ordering = askOrdering();
 
-        return new Filter(start, genres, excludedGenres, minimumDuration, maximumDuration, minimumRating, nbMovies);
+        return new Filter(start, genres, excludedGenres, minimumDuration, maximumDuration, minimumRating, nbMovies, ordering);
+    }
+
+    private Ordering askOrdering() throws InvalidInputException {
+        System.out.println("Which ordering do you want to use?");
+        System.out.println("Possible choices: "+ Stream.of(Ordering.values()).map(Enum::name).collect(Collectors.joining(", ")) +". Default is "+ DEFAULT_ORDERING);
+        String orderingStr = readString();
+        if (TextUtil.isEmptyOrNull(orderingStr)) {
+            return DEFAULT_ORDERING;
+        }
+
+        try {
+            return Ordering.valueOf(orderingStr);
+        }
+        catch (IllegalArgumentException e) {
+            throw new InvalidInputException("Invalid ordering "+ orderingStr);
+        }
     }
 
     private int askNumberMovies() {
@@ -101,7 +121,6 @@ public class InputReader {
         System.out.println("Which genres do you want to exclude? (If multiple, give a comma-separated list)");
         String excludedGenres = readString();
         if (TextUtil.isEmptyOrNull(excludedGenres)) {
-            System.out.println("Please give a genre to look for");
             return null;
         }
         excludedGenres = excludedGenres.replaceAll(" ", "").toLowerCase();
