@@ -1,6 +1,7 @@
 package dev.migwel.imdb;
 
 import dev.migwel.imdb.exception.InvalidInputException;
+import dev.migwel.imdb.util.CollectionsUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,6 +20,9 @@ public class Imdb {
         }
 
         Collection<Film> relevantMovies = fetchRelevantMovies(filter);
+        if(CollectionsUtil.isEmptyOrNull(relevantMovies)) {
+            System.out.println("No movies could be found for the given criteria");
+        }
         relevantMovies.forEach(System.out::println);
     }
 
