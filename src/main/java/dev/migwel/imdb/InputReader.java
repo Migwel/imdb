@@ -20,7 +20,7 @@ public class InputReader {
     private static final Ordering DEFAULT_ORDERING = Ordering.USERRATING_DESC;
 
     public InputReader(InputStream inputStream) {
-        var inputStreamReader = new InputStreamReader(inputStream);
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
         reader = new BufferedReader(inputStreamReader);
     }
 
