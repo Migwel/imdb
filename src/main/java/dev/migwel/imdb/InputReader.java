@@ -109,7 +109,7 @@ public class InputReader {
     }
 
     public Float askMinimumRating() {
-        System.out.println("Do you want a minimum rating (over 10)?");
+        System.out.println("Do you want a minimum rating (out of 10)?");
         String minimumRating = readString();
         if(TextUtil.isEmptyOrNull(minimumRating)) {
             return null;
