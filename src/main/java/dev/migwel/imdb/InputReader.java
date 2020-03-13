@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 public class InputReader {
     
     private final BufferedReader reader;
-    private static final Ordering DEFAULT_ORDERING = Ordering.USERRATING_DESC;
+    private static final Ordering DEFAULT_ORDERING = Ordering.POPULARITY_ASC;
 
     public InputReader(InputStream inputStream) {
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
