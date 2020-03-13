@@ -11,8 +11,9 @@ public class Filter {
     private final Float minimumRating;
     private final int nbMovies;
     private final Ordering ordering;
+    private final Integer minimumVotes;
 
-    public Filter(int start, Collection<String> genres, Collection<String> excludedGenres, Integer minimumDuration, Integer maximumDuration, Float minimumRating, int nbMovies, Ordering ordering) {
+    public Filter(int start, Collection<String> genres, Collection<String> excludedGenres, Integer minimumDuration, Integer maximumDuration, Float minimumRating, int nbMovies, Ordering ordering, Integer minimumVotes) {
         this.start = start;
         this.genres = genres;
         this.excludedGenres = excludedGenres;
@@ -21,10 +22,11 @@ public class Filter {
         this.minimumRating = minimumRating;
         this.nbMovies = nbMovies;
         this.ordering = ordering;
+        this.minimumVotes = minimumVotes;
     }
 
     public static Filter copyFilter(Filter filter) {
-        return new Filter(filter.start, filter.genres, filter.excludedGenres, filter.minimumDuration, filter.maximumDuration, filter.minimumRating, filter.nbMovies, filter.ordering);
+        return new Filter(filter.start, filter.genres, filter.excludedGenres, filter.minimumDuration, filter.maximumDuration, filter.minimumRating, filter.nbMovies, filter.ordering, filter.minimumVotes);
     }
 
     public int getStart() {
@@ -57,5 +59,9 @@ public class Filter {
 
     public Ordering getOrdering() {
         return ordering;
+    }
+
+    public Integer getMinimumVotes() {
+        return minimumVotes;
     }
 }

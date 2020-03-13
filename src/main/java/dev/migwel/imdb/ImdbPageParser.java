@@ -45,9 +45,23 @@ public class ImdbPageParser implements PageParser {
             int releaseYear = extractReleaseYear(el);
             Integer duration = extractDuration(el);
             Collection<String> genres = extractGenres(el);
-            movies.add(new Movie(filmName, releaseYear, genres, rating, duration));
+            int nbVotes = extractVotes(el);
+            movies.add(new Movie(filmName, releaseYear, genres, rating, duration, nbVotes));
         }
         return movies;
+    }
+
+    private int extractVotes(Element el) {
+        Elements dataValues = el.select("p.sort-num_votes-visible").select("span[data-value]");
+        if (dataValues.size() == 0) {
+            return 0;
+        }
+        String nbVotes = dataValues.get(0).text();
+        if (TextUtil.isEmptyOrNull(nbVotes)) {
+            return 0;
+        }
+        nbVotes = nbVotes.replaceAll(",", "").trim();
+        return Integer.parseInt(nbVotes);
     }
 
     private Collection<String> extractGenres(Element el) {

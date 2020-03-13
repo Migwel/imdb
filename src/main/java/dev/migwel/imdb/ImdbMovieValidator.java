@@ -20,7 +20,17 @@ public class ImdbMovieValidator implements MovieValidator {
         if (! validRating(movie, filter.getMinimumRating())) {
             return false;
         }
+        if (! validVoteNumber(movie, filter.getMinimumVotes())) {
+            return false;
+        }
         return !isExcluded(movie, filter.getExcludedGenres());
+    }
+
+    private boolean validVoteNumber(Movie movie, Integer minimumVotes) {
+        if (minimumVotes == null || minimumVotes == 0) {
+            return true;
+        }
+        return movie.getNbVotes() >= minimumVotes;
     }
 
     private boolean isExcluded(Movie movie, Collection<String> excludedGenres) {

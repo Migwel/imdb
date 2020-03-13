@@ -36,12 +36,22 @@ public class InputReader {
         Float minimumRating = askMinimumRating();
         int nbMovies = askNumberMovies();
         Ordering ordering = askOrdering();
+        Integer minimumVotes = askMinimumVotes();
 
-        return new Filter(start, genres, excludedGenres, minimumDuration, maximumDuration, minimumRating, nbMovies, ordering);
+        return new Filter(start, genres, excludedGenres, minimumDuration, maximumDuration, minimumRating, nbMovies, ordering, minimumVotes);
+    }
+
+    private Integer askMinimumVotes() {
+        System.out.println("[Optional] Minimum number of votes: ");
+        String minimumVotes = readString();
+        if(TextUtil.isEmptyOrNull(minimumVotes)) {
+            return null;
+        }
+        return Integer.valueOf(minimumVotes);
     }
 
     private Ordering askOrdering() throws InvalidInputException {
-        System.out.println("Which ordering do you want to use?");
+        System.out.println("[Optional] Which ordering do you want to use?");
         System.out.println("Possible choices: "+ Stream.of(Ordering.values()).map(Enum::name).collect(Collectors.joining(", ")) +". Default is "+ DEFAULT_ORDERING);
         String orderingStr = readString();
         if (TextUtil.isEmptyOrNull(orderingStr)) {
@@ -71,7 +81,7 @@ public class InputReader {
     }
 
     public Collection<String> askGenres() {
-        System.out.println("Which genre do you want to look for? (If multiple, give a comma-separated list)");
+        System.out.println("[Mandatory] Which genre do you want to look for? (If multiple, give a comma-separated list)");
         String genre = readString();
         if (TextUtil.isEmptyOrNull(genre)) {
             System.out.println("Please give a genre to look for");
@@ -82,7 +92,7 @@ public class InputReader {
     }
 
     public int askStart() {
-        System.out.println("From which number do you want the search to start? (Default: 0)");
+        System.out.println("[Optional] From which number do you want the search to start? (Default: 0)");
         String startStr = readString();
         if(TextUtil.isEmptyOrNull(startStr)) {
             return 0;
@@ -91,7 +101,7 @@ public class InputReader {
     }
 
     public Integer askMinimumDuration() {
-        System.out.println("Do you want a minimum duration (in minutes)?");
+        System.out.println("[Optional] Minimum duration (in minutes):");
         String minimumDuration = readString();
         if(TextUtil.isEmptyOrNull(minimumDuration)) {
             return null;
@@ -100,7 +110,7 @@ public class InputReader {
     }
 
     public Integer askMaximumDuration() {
-        System.out.println("Do you want a maximum duration (in minutes)?");
+        System.out.println("[Optional] Maximum duration (in minutes):");
         String maximumDuration = readString();
         if(TextUtil.isEmptyOrNull(maximumDuration)) {
             return null;
@@ -109,7 +119,7 @@ public class InputReader {
     }
 
     public Float askMinimumRating() {
-        System.out.println("Do you want a minimum rating (out of 10)?");
+        System.out.println("[Optional] Minimum rating (out of 10)?");
         String minimumRating = readString();
         if(TextUtil.isEmptyOrNull(minimumRating)) {
             return null;
@@ -118,7 +128,7 @@ public class InputReader {
     }
 
     public Collection<String> askExcludedGenres() {
-        System.out.println("Which genres do you want to exclude? (If multiple, give a comma-separated list)");
+        System.out.println("[Optional] Which genres do you want to exclude? (If multiple, give a comma-separated list)");
         String excludedGenres = readString();
         if (TextUtil.isEmptyOrNull(excludedGenres)) {
             return null;

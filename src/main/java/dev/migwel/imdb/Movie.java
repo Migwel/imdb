@@ -9,13 +9,15 @@ public class Movie {
     private final Collection<String> genres;
     private final Float rating;
     private final Integer durationInMinutes;
+    private final int nbVotes;
 
-    public Movie(String name, int releaseYear, Collection<String> genres, Float rating, Integer durationInMinutes) {
+    public Movie(String name, int releaseYear, Collection<String> genres, Float rating, Integer durationInMinutes, int nbVotes) {
         this.name = name;
         this.releaseYear = releaseYear;
         this.genres = genres;
         this.rating = rating;
         this.durationInMinutes = durationInMinutes;
+        this.nbVotes = nbVotes;
     }
 
     public String getName() {
@@ -38,6 +40,10 @@ public class Movie {
         return durationInMinutes;
     }
 
+    public int getNbVotes() {
+        return nbVotes;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Film{");
@@ -46,6 +52,7 @@ public class Movie {
         sb.append(", genres=").append(genres);
         sb.append(", rating=").append(rating);
         sb.append(", durationInMinutes=").append(durationInMinutes);
+        sb.append(", nbVotes=").append(nbVotes);
         sb.append('}');
         return sb.toString();
     }
